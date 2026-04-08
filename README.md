@@ -31,6 +31,65 @@ Error handling includes validation errors (400) and incorrect credentials (401).
 The navigation bar includes links to “Catalog,” “Profile,” and “Logout,” and is hidden on authentication pages.
 
 
+**Home Page — Jewelry Catalog (/catalog)**
+
+The main page displays jewelry items as cards with:
+• Product image
+• Name
+• Category
+• Price
+• Short description
+
+Functionality includes:
+• Filtering by category
+• Search by name with debounce
+• Optional sorting
+
+If no results are found, a reset option is provided.
+
+Clicking on a product opens a detailed page with full information and an option to add it to the cart.
+
+
+
+**Cart and Ordering System**
+
+Users can:
+• Add or remove products from the cart
+• Change quantity
+• View total price
+
+The checkout process includes order summary and confirmation. Selected items are sent to the server and stored as an order.
+
+
+
+**User Profile (/profile)**
+
+The profile section includes:
+• User information (username, email)
+• Avatar placeholder (initials)
+
+Main features:
+• Viewing active orders
+• Viewing order history
+• Editing personal data
+• Canceling orders (with confirmation)
+
+If no data is available, informative messages are displayed.
+
+All actions include loading states and error handling.
+
+
+
+**Architecture and API Interaction**
+
+The application is built using service-based architecture:
+• AuthService — authentication and token handling
+• ProductService — product data
+• CartService — cart management
+• OrderService — order processing
+• UserService — user data
+
+
 ## Contributors
 
 - **Darzhan Eduarduly**
