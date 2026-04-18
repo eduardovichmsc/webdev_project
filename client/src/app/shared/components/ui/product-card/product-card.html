@@ -1,0 +1,17 @@
+<a [routerLink]="href" class="group cursor-pointer">
+  <div
+    class="bg-[#f3f1ed] aspect-[4/5] sm:aspect-square flex items-center justify-center overflow-hidden"
+  >
+    <img
+      [src]="(Array.isArray(item.image) ? item.image[0] : item.image) || 'images/bracelet.png'"
+      [alt]="item.name"
+      class="w-3/4 h-auto transition-transform duration-700 group-hover:scale-110"
+    />
+  </div>
+  <div class="mt-4">
+    <p class="text-base md:text-lg font-semibold font-oswald uppercase tracking-wider">
+      {{ item.name }}
+    </p>
+    <p class="text-base md:text-lg font-medium text-gray-500">{{ item.price }}$</p>
+  </div>
+</a>

@@ -1,1 +1,27 @@
-<p>bestsellers works!</p>
+<div class="px-4 py-10 md:px-8 md:py-16">
+  <p class="">Bestsellers</p>
+
+  <div class="mt-4 flex flex-col lg:flex-row lg:justify-between lg:items-end gap-6 lg:gap-12">
+    <h1 class="text-4xl sm:text-5xl md:text-7xl tracking-tight font-bold max-w-3xl leading-tight">
+      Creating, Crafting <br class="hidden sm:block" />
+      & Wearing.
+    </h1>
+
+    <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-6 md:gap-10">
+      <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-md">
+        Simuero embodies our team and the desire for collective growth, and thoughtful decisions
+        that lead us down paths we feel comfortable and proud of.
+      </p>
+
+      <app-link [href]="link">Shop now</app-link>
+    </div>
+  </div>
+
+  <div class="mt-10 md:mt-16">
+    <app-carousel [items]="products">
+      <ng-template #itemTemplate let-item>
+        <app-product-card [item]="item" [routerLink]="['/', link, item.id]" />
+      </ng-template>
+    </app-carousel>
+  </div>
+</div>

@@ -1,1 +1,39 @@
-<p>categories works!</p>
+<div class="px-4 py-10 md:px-8 md:py-16">
+  <div class="mt-4 flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6 lg:gap-12">
+    <h1 class="text-4xl sm:text-5xl md:text-7xl tracking-tight font-bold max-w-3xl leading-tight">
+      Categories
+    </h1>
+
+    <div class="flex flex-col sm:items-start justify-between gap-6 md:gap-10">
+      <p class="text-sm md:text-base text-gray-700 leading-relaxed max-w-md">
+        We thrive on teamwork, the pursuit of excellence, while maintaining the freedom to decide
+        when and how to launch collections
+      </p>
+
+      <app-link [routerLink]="link" class="w-full">View all</app-link>
+    </div>
+  </div>
+
+  <div class="mt-10 md:mt-16">
+    <app-carousel [items]="items">
+      <ng-template #itemTemplate let-item>
+        <div class="group cursor-pointer">
+          <div
+            class="bg-[#f3f1ed] aspect-[4/5] sm:aspect-square flex items-center justify-center overflow-hidden"
+          >
+            <img
+              [src]="item.image || 'images/bracelet.png'"
+              [alt]="item.name"
+              class="w-3/4 h-auto transition-transform duration-700 group-hover:scale-110"
+            />
+          </div>
+          <div class="mt-4">
+            <p class="text-base md:text-lg font-semibold font-oswald uppercase tracking-wider">
+              {{ item.name }}
+            </p>
+          </div>
+        </div>
+      </ng-template>
+    </app-carousel>
+  </div>
+</div>
