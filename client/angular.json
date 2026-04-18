@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "client": {
+    "simuero_prpr": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "client:build:production"
+              "buildTarget": "simuero_prpr:build:production"
             },
             "development": {
-              "buildTarget": "client:build:development"
+              "buildTarget": "simuero_prpr:build:development"
             }
           },
           "defaultConfiguration": "development"
