@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Link } from '../../ui/link/link';
+import { Link } from '../../../ui/link/link';
 import { PATHS } from '../../../../core/configs/paths.config';
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { PATHS } from '../../../../core/configs/paths.config';
 import { RouterLink } from '@angular/router';
-import { Carousel } from '../../ui/carousel/carousel';
-import { Link } from '../../ui/link/link';
+import { Carousel } from '../../../ui/carousel/carousel';
+import { Link } from '../../../ui/link/link';
 
 @Component({
   selector: 'app-categories',

@@ -1,0 +1,19 @@
+<div
+  class="flex gap-1 items-center text-lg text-gray-400 mb-8 tracking-wide"
+  [ngClass]="class ? class : ''"
+>
+  @for (item of breadcrumbs; track $index) {
+    @if ($index + 1 === breadcrumbs.length) {
+      <span class="text-black font-semibold" [ngClass]="isWhite ? 'text-white' : 'text-black'">{{
+        item.name
+      }}</span>
+    } @else {
+      <a
+        [routerLink]="['/' + item.href]"
+        class="cursor-pointer hover:text-neutral-500 transition-all"
+        >{{ item.name }}</a
+      >
+      <img src="icons/arrow-right-neutral.svg" alt="" class="w-6 h-6 fill-white text-neutral-400" />
+    }
+  }
+</div>
