@@ -1,0 +1,194 @@
+<section
+  class="min-h-screen w-full mt-16 md:mt-0 px-4 py-10 md:px-8 md:pt-24 md:pb-12 flex flex-col bg-[#FAFAFA] text-[#1C1B1A]"
+>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div class="w-full grow flex flex-col">
+    <!-- Top -->
+    <div
+      class="flex flex-col md:flex-row md:items-end justify-between border-b border-[#E0DED8] pb-10 mb-12"
+    >
+      <div>
+        <h2 class="text-4xl md:text-6xl font-bold tracking-tight text-[#1C1B1A]">
+          {{ content.header.title }}
+        </h2>
+      </div>
+      <p class="text-[#8C8A84] text-sm max-w-xs mt-6 md:mt-0 leading-relaxed">
+        {{ content.header.description }}
+      </p>
+    </div>
+
+    <!-- Content -->
+    <div class="flex flex-col lg:flex-row w-full grow relative">
+      <!-- Left -->
+      <div
+        class="flex-1 lg:pr-16 xl:pr-24 flex flex-col border-b lg:border-b-0 lg:border-r border-[#E0DED8] pb-12 lg:pb-0 mb-12 lg:mb-0"
+      >
+        <div class="flex flex-col gap-12">
+          <!-- 01 -->
+          <div class="group">
+            <span
+              class="block text-[10px] text-[#8A8476] font-mono uppercase tracking-[0.2em] mb-3"
+            >
+              {{ content.contacts.direct.label }}
+            </span>
+            <a
+              [href]="'mailto:' + content.contacts.direct.email"
+              class="text-3xl md:text-5xl text-[#1C1B1A] transition-colors duration-500 group-hover:text-[#8A8476]"
+            >
+              {{ content.contacts.direct.email }}
+            </a>
+          </div>
+
+          <!-- 02 -->
+          <div>
+            <span
+              class="block text-[10px] text-[#8A8476] font-mono uppercase tracking-[0.2em] mb-3"
+            >
+              {{ content.contacts.location.label }}
+            </span>
+            <p class="text-3xl md:text-4xl text-[#1C1B1A]">
+              {{ content.contacts.location.city }}
+            </p>
+            <p class="text-sm text-[#8C8A84] mt-3">
+              {{ content.contacts.location.descLine1 }}<br />
+              {{ content.contacts.location.descLine2 }}
+            </p>
+          </div>
+
+          <!-- 03 -->
+          <div>
+            <span
+              class="block text-[10px] text-[#8A8476] font-mono uppercase tracking-[0.2em] mb-3"
+            >
+              {{ content.contacts.social.label }}
+            </span>
+            <div class="flex gap-8">
+              @for (link of content.contacts.social.links; track $index) {
+                <app-link [href]="link.href">
+                  {{ link.name }}
+                </app-link>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right  -->
+      <div
+        class="flex-1 lg:pl-16 xl:pl-24 flex flex-col justify-center min-h-[400px] animate-fade-in-up [animation-delay:300ms]"
+      >
+        @if (status === 'success') {
+          <!-- Success Message -->
+          <div class="flex flex-col items-start gap-6 animate-fade-in">
+            <h3 class="text-4xl md:text-5xl font-serif text-[#1C1B1A]">
+              {{ content.form.success.title }}
+            </h3>
+            <p class="text-[#8C8A84] text-base md:text-lg max-w-sm leading-relaxed">
+              {{ content.form.success.message }}
+            </p>
+            <button
+              (click)="resetFormState()"
+              class="mt-4 text-[10px] uppercase tracking-[0.2em] text-[#1C1B1A] border-b border-[#1C1B1A] pb-1 hover:text-[#8A8476] hover:border-[#8A8476] transition-all"
+            >
+              {{ content.form.success.resetBtn }}
+            </button>
+          </div>
+        } @else {
+          <!-- Form -->
+          <form
+            [formGroup]="contactForm"
+            (ngSubmit)="onSubmit()"
+            class="flex flex-col gap-8 w-full animate-fade-in"
+          >
+            <!-- Name -->
+            <div class="flex flex-col gap-2">
+              <div class="flex justify-between items-baseline">
+                <label for="name" class="text-[10px] uppercase tracking-[0.15em] text-[#8C8A84]">
+                  {{ content.form.name.label }}
+                </label>
+                <span
+                  class="text-[10px] text-[#A65D57]"
+                  *ngIf="isSubmitted && contactForm.get('name')?.errors?.['required']"
+                >
+                  {{ content.form.name.errorReq }}
+                </span>
+              </div>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                autocomplete="off"
+                [readonly]="status === 'loading'"
+                class="w-full bg-transparent border-b border-[#D1CFCA] py-2 text-lg text-[#1C1B1A] focus:outline-none focus:border-[#1C1B1A] transition-colors rounded-none placeholder-[#C2C0BA] read-only:opacity-50"
+                [placeholder]="content.form.name.placeholder"
+              />
+            </div>
+
+            <!-- Email -->
+            <div class="flex flex-col gap-2">
+              <div class="flex justify-between items-baseline">
+                <label for="email" class="text-[10px] uppercase tracking-[0.15em] text-[#8C8A84]">
+                  {{ content.form.email.label }}
+                </label>
+                <span
+                  class="text-[10px] text-[#A65D57]"
+                  *ngIf="isSubmitted && contactForm.get('email')?.errors?.['required']"
+                >
+                  {{ content.form.email.errorReq }}
+                </span>
+                <span
+                  class="text-[10px] text-[#A65D57]"
+                  *ngIf="isSubmitted && contactForm.get('email')?.errors?.['email']"
+                >
+                  {{ content.form.email.errorInv }}
+                </span>
+              </div>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                autocomplete="off"
+                [readonly]="status === 'loading'"
+                class="w-full bg-transparent border-b border-[#D1CFCA] py-2 text-lg text-[#1C1B1A] focus:outline-none focus:border-[#1C1B1A] transition-colors rounded-none placeholder-[#C2C0BA] read-only:opacity-50"
+                [placeholder]="content.form.email.placeholder"
+              />
+            </div>
+
+            <!-- Message -->
+            <div class="flex flex-col gap-2 mt-4">
+              <div class="flex justify-between items-baseline">
+                <label for="message" class="text-[10px] uppercase tracking-[0.15em] text-[#8C8A84]">
+                  {{ content.form.message.label }}
+                </label>
+                <span
+                  class="text-[10px] text-[#A65D57]"
+                  *ngIf="isSubmitted && contactForm.get('message')?.errors?.['required']"
+                >
+                  {{ content.form.message.errorReq }}
+                </span>
+              </div>
+              <textarea
+                id="message"
+                formControlName="message"
+                rows="5"
+                [readonly]="status === 'loading'"
+                class="w-full bg-transparent border-b border-[#D1CFCA] py-2 text-lg text-[#1C1B1A] focus:outline-none focus:border-[#1C1B1A] transition-colors rounded-none placeholder-[#C2C0BA] resize-none read-only:opacity-50"
+                [placeholder]="content.form.message.placeholder"
+              ></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button
+              type="submit"
+              [disabled]="status === 'loading'"
+              class="mt-8 w-full bg-[#1C1B1A] text-[#FAFAFA] py-4 text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 hover:bg-[#8A8476] hover:text-[#FAFAFA] disabled:opacity-50 disabled:cursor-wait"
+            >
+              {{ status === 'loading' ? content.form.loadingBtn : content.form.submitBtn }}
+            </button>
+          </form>
+        }
+      </div>
+    </div>
+  </div>
+</section>
