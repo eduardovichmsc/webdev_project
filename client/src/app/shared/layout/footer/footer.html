@@ -1,1 +1,82 @@
-<p>footer works!</p>
+<footer
+    class="bg-[#261a12] text-[#f0ebe1] px-6 py-12 md:px-12 md:py-16 font-sans flex flex-col justify-between min-h-[60vh]">
+    <div class="flex flex-col lg:flex-row justify-between gap-16 lg:gap-24">
+        <div class="flex flex-col w-full lg:w-[35%]">
+            <h2 class="text-4xl md:text-5xl mb-16 font-source italic">simuero</h2>
+
+            <div class="mb-4">
+                <h3 class="text-base font-medium mb-3">Newsletter</h3>
+                <p class="text-sm text-[#d4cdbf] leading-relaxed max-w-[280px] mb-8">
+                    Get fresh insights, design updates, and exclusive content straight to your inbox.
+                </p>
+
+                <form class="flex items-end gap-4 max-w-sm">
+                    <div class="grow">
+                        <label for="email" class="sr-only">Email</label>
+                        <input type="email" id="email" placeholder="Email"
+                            class="w-full bg-transparent border-b border-[#4b3e35] pb-2 text-sm focus:outline-none focus:border-[#f0ebe1] transition-colors placeholder:text-[#d4cdbf]" />
+                    </div>
+                    <button type="button"
+                        class="border border-[#4b3e35] px-8 py-2 text-sm hover:bg-[#f0ebe1] hover:text-[#261a12] transition-colors duration-300">
+                        Sent
+                    </button>
+                </form>
+
+                <p class="text-[10px] text-[#9a8f85] mt-6 max-w-[240px] leading-relaxed">
+                    By subscribing, you agree to receive our emails and accept our
+                    <a routerLink="/privacy-policy"
+                        class="underline underline-offset-2 hover:text-[#f0ebe1] transition-colors">Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-[65%]">
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-4 w-full">
+                <!-- Shop categories from backend -->
+                <div class="flex flex-col">
+                    <h3 class="text-base font-medium mb-6">Shop</h3>
+                    <ul class="flex flex-col gap-5">
+                        @for (cat of categories(); track cat.slug) {
+                        <li>
+                            <a [routerLink]="['/shop']" [queryParams]="{ category: cat.slug }"
+                                class="text-sm text-[#d4cdbf] hover:text-[#f0ebe1] transition-colors duration-300">
+                                {{ cat.name }}
+                            </a>
+                        </li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Help (static) -->
+                <div class="flex flex-col">
+                    <h3 class="text-base font-medium mb-6">Help</h3>
+                    <ul class="flex flex-col gap-5">
+                        @for (link of helpLinks; track link.name) {
+                        <li>
+                            <a routerLink="#"
+                                class="text-sm text-[#d4cdbf] hover:text-[#f0ebe1] transition-colors duration-300">
+                                {{ link.name }}
+                            </a>
+                        </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-20 md:mt-32 flex flex-col md:flex-row justify-between items-end gap-6 md:gap-0">
+        <p class="text-sm text-[#d4cdbf]">© 2025 Simuero</p>
+
+        <ul class="flex flex-wrap gap-8 text-sm text-[#d4cdbf]">
+            @for (link of legalLinks; track link) {
+            <li>
+                <a routerLink="#"
+                    class="hover:text-[#f0ebe1] transition-colors underline decoration-[#4b3e35] underline-offset-4">
+                    {{ link }}
+                </a>
+            </li>
+            }
+        </ul>
+    </div>
+</footer>
