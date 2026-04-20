@@ -14,6 +14,14 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/contacts/contacts').then((m) => m.Contacts),
   },
   {
+    path: 'shop',
+    loadComponent: () => import('./pages/shop/shop').then((m) => m.Shop),
+  },
+  {
+    path: 'shop/:id',
+    loadComponent: () => import('./pages/shop-id/shop-id').then((m) => m.ProductDetail),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

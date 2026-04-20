@@ -1,0 +1,63 @@
+<section
+  class="min-h-screen w-full mt-16 md:mt-0 px-4 py-10 md:px-8 md:pt-24 md:pb-12 flex flex-col"
+>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-6 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
+      <div class="flex items-center gap-4 md:gap-6 whitespace-nowrap">
+        @for (category of categories(); track category.slug) {
+          <button
+            (click)="selectCategory(category.slug)"
+            class="transition-colors duration-300 ease-in-out cursor-pointer text-lg"
+            [class.text-black]="selectedCategorySlug() === category.slug"
+            [class.text-neutral-400]="selectedCategorySlug() !== category.slug"
+            [class.hover:text-neutral-600]="selectedCategorySlug() !== category.slug"
+          >
+            {{ category.name }}
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="min-h-[25vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8">
+    @for (item of allProducts(); track item.slug; let i = $index) {
+      <div class="opacity-0 animate-fade-up">
+        <app-product-card [item]="item" [href]="['/', link, item.slug]"></app-product-card>
+      </div>
+    }
+
+    @if (!isLoading() && allProducts().length === 0) {
+      <div class="col-span-full py-[17%] text-center text-neutral-400 opacity-0 animate-fade-up">
+        <p class="text-xl">Nothing found in this category.</p>
+      </div>
+    }
+  </div>
+
+  <div class="flex flex-col md:flex-row justify-between items-center mt-12 gap-8 md:gap-0">
+    <button
+      (click)="prevPage()"
+      [disabled]="offset() === 0"
+      class="font-semibold tracking-tighter disabled:text-neutral-400 text-5xl md:text-7xl lg:text-9xl not-disabled:cursor-pointer transition-colors duration-300 not-disabled:hover:text-neutral-600 -ml-1 md:-ml-2"
+    >
+      PREV
+    </button>
+
+    <div
+      class="flex flex-wrap justify-center order-last md:order-none text-neutral-500 font-medium"
+    >
+      @if (totalCount() > 0) {
+        Showing {{ offset() + 1 }} - {{ offset() + allProducts().length }} of {{ totalCount() }}
+      }
+    </div>
+
+    <button
+      (click)="nextPage()"
+      [disabled]="offset() + limit >= totalCount()"
+      class="font-semibold tracking-tighter disabled:text-neutral-400 text-5xl md:text-7xl lg:text-9xl not-disabled:cursor-pointer transition-colors duration-300 not-disabled:hover:text-neutral-600"
+    >
+      NEXT
+    </button>
+  </div>
+</section>

@@ -1,0 +1,103 @@
+<section
+  class="min-h-screen w-full mt-16 md:mt-0 px-4 py-10 md:px-8 md:pt-24 md:pb-12 flex flex-col"
+>
+  <!-- Breadcrumbs -->
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs()" />
+
+  <div class="flex flex-col lg:flex-row gap-10 lg:gap-24">
+    <div class="w-full lg:w-1/2 space-y-4">
+      <div class="w-full aspect-[5/6] overflow-hidden bg-gray-100 relative">
+        @for (img of product()?.image; track $index) {
+          @if (selectedImageIndex() === $index) {
+            <img
+              [src]="img"
+              alt="Product"
+              class="object-cover w-full h-full absolute inset-0 image-fade"
+            />
+          }
+        }
+      </div>
+
+      <div class="grid grid-cols-5 gap-2 md:gap-4 mt-4">
+        @if (product()?.image?.length) {
+          @for (img of product()?.image; track $index) {
+            <button
+              (mouseenter)="selectImage($index)"
+              (click)="selectImage($index)"
+              class="aspect-square cursor-pointer overflow-hidden transition-all duration-300 ease-in-out"
+              [class.opacity-75]="selectedImageIndex() !== $index"
+              [class.hover:opacity-100]="selectedImageIndex() !== $index"
+            >
+              <img [src]="img" class="object-cover w-full h-full" alt="Thumbnail" />
+            </button>
+          }
+        }
+      </div>
+
+      <app-tabs [tabs]="tabs()"></app-tabs>
+    </div>
+
+    <div class="w-full lg:w-1/2">
+      <p class="text-base md:text-lg text-neutral-400 uppercase tracking-tight">
+        {{ category()?.name }}
+      </p>
+      <h1
+        class="mt-2 md:mt-4 text-4xl md:text-5xl lg:text-7xl text-black font-medium tracking-tight"
+      >
+        {{ product()?.name }}
+      </h1>
+
+      <p class="mt-6 md:mt-8 text-gray-600 leading-relaxed">
+        {{ product()?.description }}
+      </p>
+
+      <p class="my-6 md:my-8 text-2xl md:text-3xl font-light">
+        {{ product()?.price | currency: 'USD' : 'symbol' : '1.0-2' }}
+      </p>
+
+      @if (sizes().length > 0) {
+        <div class="mb-10">
+          <p class="text-xs uppercase tracking-[0.2em] text-gray-500 mb-4">Select Size</p>
+          <div class="flex flex-wrap gap-2 md:gap-3">
+            @for (size of sizes(); track size) {
+              <button
+                class="min-w-[3rem] h-12 px-3 flex items-center justify-center border border-gray-200 cursor-pointer hover:border-black transition-colors duration-300 text-sm font-medium focus:outline-black"
+              >
+                {{ size }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+
+      <div class="flex flex-col sm:flex-row gap-4 mt-8">
+        <button
+          class="bg-black text-white w-full sm:w-3/5 p-4 uppercase hover:bg-neutral-800 transition-colors"
+        >
+          Add to Bag
+        </button>
+        <button
+          class="w-full sm:w-auto p-4 uppercase text-center sm:text-start sm:pl-8 underline underline-offset-8 hover:text-neutral-500 transition-colors"
+        >
+          Add to Wishlist
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-16 relative mx-auto lg:w-[80%] lg:h-[600px]">
+    <div
+      class="absolute top-0 left-0 object-cover object-[center_30%] w-full h-full bg-black"
+    ></div>
+    <img
+      src="images/71BoiifyAbL._AC_SX679_.jpg"
+      alt=""
+      class="absolute top-0 left-0 object-cover object-[center_30%] w-full h-full opacity-75"
+    />
+    <div class="relative w-full h-full flex justify-center items-center">
+      <p class="block max-w-xl text-5xl text-white text-center tracking-tight font-medium">
+        A sculpted memory of the sun - bold and imperfectly beautiful.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,32 @@
+<div class="w-full mt-10">
+  <div class="relative flex border-b border-gray-200">
+    @for (tab of tabs(); track tab.id) {
+      <div
+        (click)="setActiveTab(tab.id)"
+        class="flex-1 flex justify-center items-center py-4 cursor-pointer transition-all duration-300 hover:bg-gray-50/50"
+        [class.text-black]="activeTabId() === tab.id"
+        [class.text-gray-400]="activeTabId() !== tab.id"
+      >
+        <p
+          class="font-semibold uppercase tracking-wider text-xs md:text-sm lg:text-base z-10 text-center"
+        >
+          {{ tab.name }}
+        </p>
+      </div>
+    }
+
+    <div
+      class="absolute bottom-0 h-0.5 bg-black transition-all duration-300 ease-in-out"
+      [style.width.%]="100 / tabs().length"
+      [style.left.%]="(100 / tabs().length) * activeIndex()"
+    ></div>
+  </div>
+
+  <div class="py-6 md:py-10">
+    <div class="animate-in fade-in slide-in-from-bottom-2 duration-500 ease-out">
+      <p class="text-gray-700 leading-relaxed text-sm md:text-base">
+        {{ activeTabContent() }}
+      </p>
+    </div>
+  </div>
+</div>
