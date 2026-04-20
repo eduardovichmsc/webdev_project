@@ -35,7 +35,7 @@
     </div>
   </div>
 
-  <div class="min-h-[25vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8">
+  <div id="shop-products" class="min-h-[25vh] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mt-8">
     @for (item of allProducts(); track item.slug; let i = $index) {
       <div class="opacity-0 animate-fade-up">
         <app-product-card [item]="item" [href]="['/', link, item.slug]"></app-product-card>

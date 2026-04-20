@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ProductCategory } from '../../models/product.model';
 import { MenuItem, MenuService } from '../../services/menu/menu';
 import { ProductService } from '../../services/product/product';
+import { AuthService } from '../../services/auth/auth';
+import { CartService } from '../../services/cart/cart';
 
 @Component({
   selector: 'app-header',
@@ -18,6 +20,8 @@ export class Header implements OnInit {
     private menuService: MenuService,
     private router: Router,
     private productService: ProductService,
+    public authService: AuthService,
+    public cartService: CartService,
   ) {
     this.menuItems = this.menuService.menuItems;
 
@@ -28,10 +32,14 @@ export class Header implements OnInit {
       });
   }
 
+  logout() {
+    this.authService.logout();
+  }
+
   menuItems: MenuItem[] = [];
   currentUrl: string = '/';
 
-  whitePages = ['/', '/blog'];
+  whitePages = ['/', '/blog', '/profile'];
 
   isMenuOpen = false;
   isScrolled = false;

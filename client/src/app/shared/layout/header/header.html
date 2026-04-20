@@ -1,5 +1,6 @@
 <header
   class="fixed top-0 left-0 w-full z-[100] text-black transition-transform duration-500 ease-in-out"
+  [class.z-[300]]="isMenuOpen"
   [class.translate-y-0]="isVisible"
   [class.-translate-y-full]="!isVisible"
 >
@@ -46,8 +47,56 @@
       </a>
     </div>
 
-    <div class="flex gap-4 md:gap-6 text-[15px] font-medium">
-      <span class="cursor-pointer hover:opacity-70 transition-opacity">cart (0)</span>
+    <div class="flex items-center gap-3 md:gap-4">
+
+      @if (authService.isLoggedIn()) {
+        <!-- Profile icon -->
+        <a
+          routerLink="/profile"
+          class="relative flex items-center cursor-pointer hover:opacity-60 transition-opacity"
+          aria-label="Profile"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </a>
+      } @else {
+        <!-- Sign in icon -->
+        <a
+          routerLink="/login"
+          class="flex items-center cursor-pointer hover:opacity-60 transition-opacity"
+          aria-label="Sign in"
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+          </svg>
+        </a>
+      }
+
+      <!-- Cart icon -->
+      <button
+        class="relative cursor-pointer hover:opacity-60 transition-opacity flex items-center"
+        (click)="cartService.openCart()"
+        aria-label="Open cart"
+      >
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <path d="M16 10a4 4 0 01-8 0"/>
+        </svg>
+        @if (cartService.cartCount() > 0) {
+          <span
+            class="absolute -top-2 -right-2 min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center text-[10px] font-semibold leading-none"
+            [class.bg-black]="!isWhitePage || isMenuOpen || isScrolled"
+            [class.text-[#FCFBF8]]="!isWhitePage || isMenuOpen || isScrolled"
+            [class.bg-white]="isWhitePage && !isMenuOpen && !isScrolled"
+            [class.text-black]="isWhitePage && !isMenuOpen && !isScrolled"
+          >{{ cartService.cartCount() }}</span>
+        }
+      </button>
+
     </div>
   </div>
 

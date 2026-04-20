@@ -10,6 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { switchMap, tap, catchError, finalize, of, filter, map } from 'rxjs';
 import { ProductService } from '../../shared/services/product/product';
 import { Tab, Tabs } from '../../shared/ui/tabs/tabs';
+import { CartService } from '../../shared/services/cart/cart';
 
 @Component({
   selector: 'app-shop-id',
@@ -23,6 +24,7 @@ export class ProductDetail {
     private route: ActivatedRoute,
     private productService: ProductService,
     private title: Title,
+    private cartService: CartService,
   ) {
     this.route.paramMap
       .pipe(
@@ -73,6 +75,13 @@ export class ProductDetail {
 
   selectImage(index: number) {
     this.selectedImageIndex.set(index);
+  }
+
+  addToCart() {
+    const p = this.product();
+    if (!p) return;
+    this.cartService.addItem(p);
+    this.cartService.openCart();
   }
 
   private loadProductData(slug: string) {

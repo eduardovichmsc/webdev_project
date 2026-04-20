@@ -108,6 +108,7 @@ export class Shop {
     if (this.offset() + this.limit < this.totalCount()) {
       this.offset.set(this.offset() + this.limit);
       this.loadProducts();
+      this.scrollToProducts();
     }
   }
 
@@ -115,6 +116,13 @@ export class Shop {
     if (this.offset() - this.limit >= 0) {
       this.offset.set(this.offset() - this.limit);
       this.loadProducts();
+      this.scrollToProducts();
     }
+  }
+
+  private scrollToProducts(): void {
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 50);
   }
 }

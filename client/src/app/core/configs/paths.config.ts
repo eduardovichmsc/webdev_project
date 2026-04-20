@@ -7,4 +7,8 @@ export const PATHS = {
     ROOT: 'shop',
     PRODUCT: 'shop/:id',
   },
+  LOGIN: 'login',
+  REGISTER: 'register',
+  CART: 'cart',
+  PROFILE: 'profile',
 } as const;

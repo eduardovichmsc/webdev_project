@@ -1,0 +1,167 @@
+<div
+  class="cart-drawer-root"
+  [class.open]="cartService.isOpen()"
+>
+  <!-- Overlay -->
+  <div
+    class="cart-overlay"
+    [class.visible]="cartService.isOpen()"
+    (click)="cartService.closeCart()"
+  ></div>
+
+  <!-- Panel -->
+  <div
+    class="cart-panel"
+    [class.translate-x-0]="cartService.isOpen()"
+    [class.translate-x-full]="!cartService.isOpen()"
+  >
+    <!-- Header -->
+    <div class="cart-header">
+      <div class="cart-title-area">
+        <h2 class="cart-title">Your Bag</h2>
+        @if (cartService.cartCount() > 0) {
+          <span class="cart-count-pill">{{ cartService.cartCount() }}</span>
+        }
+      </div>
+      <button class="cart-close-btn" (click)="cartService.closeCart()" aria-label="Close cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="cart-divider"></div>
+
+    <!-- Body -->
+    <div class="cart-body">
+
+      <!-- Not logged in -->
+      @if (!authService.isLoggedIn()) {
+        <div class="cart-empty">
+          <div class="cart-empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+          </div>
+          <p class="cart-empty-title">Sign in to view your bag</p>
+          <p class="cart-empty-sub">Save and access your items across devices.</p>
+          <a routerLink="/login" (click)="cartService.closeCart()" class="cart-signin-btn">
+            sign in
+          </a>
+        </div>
+      }
+
+      <!-- Loading -->
+      @else if (cartService.isLoading()) {
+        <div class="cart-loading">
+          @for (i of [1,2,3]; track i) {
+            <div class="cart-skeleton">
+              <div class="skeleton-img animate-shimmer"></div>
+              <div class="skeleton-info">
+                <div class="skeleton-line animate-shimmer" style="width:60%"></div>
+                <div class="skeleton-line animate-shimmer" style="width:40%; margin-top:6px"></div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Empty cart -->
+      @else if (cartService.items().length === 0) {
+        <div class="cart-empty">
+          <div class="cart-empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+          </div>
+          <p class="cart-empty-title">Your bag is empty</p>
+          <p class="cart-empty-sub">Discover our collection and add your favourites.</p>
+          <a routerLink="/shop" (click)="cartService.closeCart()" class="cart-signin-btn">
+            explore shop
+          </a>
+        </div>
+      }
+
+      <!-- Cart items -->
+      @else {
+        <ul class="cart-items-list">
+          @for (item of cartService.items(); track item.id) {
+            <li class="cart-item">
+              <!-- Product image -->
+              <a
+                [routerLink]="['/shop', item.product_detail.slug]"
+                (click)="cartService.closeCart()"
+                class="cart-item-img-wrap"
+              >
+                <img
+                  [src]="item.product_detail.images[0]?.image_url || 'images/bracelet.png'"
+                  [alt]="item.product_detail.name"
+                  class="cart-item-img"
+                />
+              </a>
+
+              <!-- Info -->
+              <div class="cart-item-info">
+                <div class="cart-item-top">
+                  <div>
+                    <p class="cart-item-category">{{ item.product_detail.category.name }}</p>
+                    <a
+                      [routerLink]="['/shop', item.product_detail.slug]"
+                      (click)="cartService.closeCart()"
+                      class="cart-item-name"
+                    >{{ item.product_detail.name }}</a>
+                  </div>
+                  <button
+                    class="cart-item-remove"
+                    (click)="cartService.removeItem(item.id)"
+                    aria-label="Remove item"
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path stroke-linecap="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                  </button>
+                </div>
+
+                <div class="cart-item-bottom">
+                  <!-- Qty controls -->
+                  <div class="qty-control">
+                    <button class="qty-btn" (click)="cartService.decreaseQuantity(item)">−</button>
+                    <span class="qty-val">{{ item.quantity }}</span>
+                    <button class="qty-btn" (click)="cartService.increaseQuantity(item)">+</button>
+                  </div>
+
+                  <!-- Price -->
+                  <p class="cart-item-price">
+                    {{ (parseFloat(item.product_detail.price) * item.quantity) | currency:'USD':'symbol':'1.0-2' }}
+                  </p>
+                </div>
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <!-- Footer -->
+    @if (authService.isLoggedIn() && cartService.items().length > 0) {
+      <div class="cart-footer">
+        <div class="cart-divider mb-6"></div>
+        <div class="cart-subtotal">
+          <span class="cart-subtotal-label">Subtotal</span>
+          <span class="cart-subtotal-value">{{ cartService.cartTotal() | currency:'USD':'symbol':'1.0-2' }}</span>
+        </div>
+        <p class="cart-shipping-note">Shipping &amp; taxes calculated at checkout</p>
+        <button class="cart-checkout-btn">
+          Checkout
+        </button>
+        <button class="cart-continue-btn" (click)="cartService.closeCart()">
+          Continue Shopping
+        </button>
+      </div>
+    }
+  </div>
+</div>
