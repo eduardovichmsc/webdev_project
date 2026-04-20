@@ -93,5 +93,5 @@ The application is built using service-based architecture:
 ## Contributors
 
 - **Darzhan Eduarduly**
-- **Yenglik Sailaukhan**
+- **Yenlik Yerkin**
 - **Inkar Serikkul**
