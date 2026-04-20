@@ -3,7 +3,7 @@
 >
   <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
 
-  <div class="flex items-center justify-between">
+  <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-0">
     <div class="flex items-center gap-6 overflow-x-auto pb-2 md:pb-0 no-scrollbar">
       <div class="flex items-center gap-4 md:gap-6 whitespace-nowrap">
         @for (category of categories(); track category.slug) {
@@ -18,6 +18,20 @@
           </button>
         }
       </div>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <span class="text-neutral-400 uppercase tracking-tight text-sm">Sort by:</span>
+      <select
+        (change)="changeOrdering($event)"
+        class="bg-transparent border-b border-gray-300 text-black text-sm uppercase tracking-tight focus:outline-none focus:border-black cursor-pointer pb-1 transition-colors"
+      >
+        @for (option of sortOptions; track option.value) {
+          <option [value]="option.value" [selected]="selectedOrdering() === option.value">
+            {{ option.label }}
+          </option>
+        }
+      </select>
     </div>
   </div>
 

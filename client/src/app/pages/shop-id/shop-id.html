@@ -1,16 +1,15 @@
 <section
   class="min-h-screen w-full mt-16 md:mt-0 px-4 py-10 md:px-8 md:pt-24 md:pb-12 flex flex-col"
 >
-  <!-- Breadcrumbs -->
   <app-breadcrumbs [breadcrumbs]="breadcrumbs()" />
 
   <div class="flex flex-col lg:flex-row gap-10 lg:gap-24">
     <div class="w-full lg:w-1/2 space-y-4">
       <div class="w-full aspect-[5/6] overflow-hidden bg-gray-100 relative">
-        @for (img of product()?.image; track $index) {
+        @for (img of product()?.images; track $index) {
           @if (selectedImageIndex() === $index) {
             <img
-              [src]="img"
+              [src]="img.image_url"
               alt="Product"
               class="object-cover w-full h-full absolute inset-0 image-fade"
             />
@@ -19,8 +18,8 @@
       </div>
 
       <div class="grid grid-cols-5 gap-2 md:gap-4 mt-4">
-        @if (product()?.image?.length) {
-          @for (img of product()?.image; track $index) {
+        @if (product()?.images?.length) {
+          @for (img of product()?.images; track $index) {
             <button
               (mouseenter)="selectImage($index)"
               (click)="selectImage($index)"
@@ -28,7 +27,7 @@
               [class.opacity-75]="selectedImageIndex() !== $index"
               [class.hover:opacity-100]="selectedImageIndex() !== $index"
             >
-              <img [src]="img" class="object-cover w-full h-full" alt="Thumbnail" />
+              <img [src]="img.image_url" class="object-cover w-full h-full" alt="Thumbnail" />
             </button>
           }
         }
@@ -36,7 +35,6 @@
 
       <app-tabs [tabs]="tabs()"></app-tabs>
     </div>
-
     <div class="w-full lg:w-1/2">
       <p class="text-base md:text-lg text-neutral-400 uppercase tracking-tight">
         {{ category()?.name }}

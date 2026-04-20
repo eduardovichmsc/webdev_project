@@ -18,7 +18,7 @@
   </div>
 
   <div class="mt-10 md:mt-16">
-    <app-carousel [items]="products">
+    <app-carousel [items]="products()">
       <ng-template #itemTemplate let-item>
         <app-product-card [item]="item" [routerLink]="['/', link, item.id]" />
       </ng-template>

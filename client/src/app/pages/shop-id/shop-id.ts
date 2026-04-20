@@ -1,6 +1,6 @@
 import { Component, signal, computed } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AnyProduct, Ring } from '../../shared/models/product.model';
+import { AnyProduct } from '../../shared/models/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { Breadcrumb, Breadcrumbs } from '../../shared/ui/breadcrumbs/breadcrumbs';
 import { PATHS } from '../../core/configs/paths.config';
@@ -68,11 +68,7 @@ export class ProductDetail {
   ]);
 
   readonly sizes = computed(() => {
-    const p = this.product();
-    if (p && 'sizes' in p && Array.isArray(p.sizes)) {
-      return (p as Ring).sizes;
-    }
-    return [];
+    return this.product()?.sizes || [];
   });
 
   selectImage(index: number) {
@@ -83,20 +79,8 @@ export class ProductDetail {
     return this.productService.getProductBySlug(slug).pipe(
       tap((foundProduct) => {
         this.product.set(foundProduct);
-        console.log(foundProduct);
-
+        this.category.set(foundProduct.category);
         this.title.setTitle(`${foundProduct.name}: Simuero`);
-      }),
-      switchMap((foundProduct) => {
-        if (!foundProduct.categorySlug) return of(null);
-
-        return this.productService.getCategoryBySlug(foundProduct.categorySlug).pipe(
-          tap((foundCategory) => this.category.set(foundCategory)),
-          catchError((err) => {
-            console.error('Ошибка загрузки категории:', err);
-            return of(null);
-          }),
-        );
       }),
       catchError((error) => {
         console.error('Ошибка загрузки продукта:', error);
