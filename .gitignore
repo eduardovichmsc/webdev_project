@@ -1,0 +1,25 @@
+.DS_Store
+
+# Django
+server/venv/
+server/__pycache__/
+server/**/__pycache__/
+server/**/*.pyc
+server/**/*.pyo
+server/db.sqlite3
+server/*.log
+server/.env
+server/local_settings.py
+server/staticfiles/
+server/media/
+
+# Angular
+client/node_modules/
+client/dist/
+client/.angular/
+client/.env
+
+.vscode/
+.idea/
+*.swp
+*.swo
