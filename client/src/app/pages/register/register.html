@@ -1,15 +1,12 @@
 <!-- Split-panel auth layout -->
-<div class="flex min-h-screen bg-[#faf9f6]">
+<div class="flex min-h-screen">
   <!-- Left decorative panel -->
-  <div
-    class="relative hidden md:block w-1/2 shrink-0 bg-cover bg-center"
-    style="
+  <div class="relative hidden md:block w-1/2 shrink-0 bg-cover bg-center" style="
       background-image: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1400&auto=format&fit=crop');
-    "
-  >
+    ">
     <div class="absolute inset-0 bg-gradient-to-b from-black/55 to-black/25"></div>
     <div class="relative z-10 h-full flex flex-col justify-between p-10">
-      <a routerLink="/" class="font-source text-2xl italic text-white tracking-wide">simuero</a>
+      <a routerLink="/" class="font-source text-2xl italic text-white tracking-wide"></a>
       <div class="flex flex-col gap-5">
         <p class="font-serif text-2xl italic leading-snug text-white/90">
           "Every piece holds<br />a story waiting to<br />be worn."
@@ -23,7 +20,7 @@
   <div class="flex flex-1 items-center justify-center px-6 py-10">
     <div class="w-full max-w-[420px] flex flex-col gap-7">
       <!-- Mobile logo -->
-      <a routerLink="/" class="font-source text-2xl italic text-neutral-900 md:hidden">simuero</a>
+      <a routerLink="/" class="font-source text-2xl italic text-neutral-900 md:hidden"></a>
 
       <!-- Header -->
       <div class="flex flex-col gap-1">
@@ -37,256 +34,151 @@
       <form class="flex flex-col gap-4" (ngSubmit)="onSubmit()" #regForm="ngForm">
         <!-- Global error -->
         @if (errorMessage()) {
-          <div
-            id="register-error-banner"
-            class="flex items-center gap-2.5 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm animate-fade-up"
-          >
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              class="shrink-0"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
-            {{ errorMessage() }}
-          </div>
+        <div id="register-error-banner"
+          class="flex items-center gap-2.5 px-4 py-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm animate-fade-up">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            class="shrink-0">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="8" x2="12" y2="12" />
+            <line x1="12" y1="16" x2="12.01" y2="16" />
+          </svg>
+          {{ errorMessage() }}
+        </div>
         }
 
         <!-- Username -->
         <div class="flex flex-col gap-1.5">
-          <label
-            class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
-            for="reg-username"
-            >Username</label
-          >
-          <input
-            id="reg-username"
-            name="username"
-            type="text"
+          <label class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
+            for="reg-username">Username</label>
+          <input id="reg-username" name="username" type="text"
             class="w-full border rounded-lg px-4 py-3 text-sm text-neutral-900 bg-white outline-none transition placeholder:text-neutral-300 focus:shadow-[0_0_0_3px_rgba(26,26,26,0.06)]"
             [class]="
               !!getFieldError('username')
                 ? 'border-red-400 focus:border-red-400'
                 : 'border-neutral-300 focus:border-neutral-900'
-            "
-            placeholder="your_username"
-            autocomplete="username"
-            [(ngModel)]="form.username"
-            required
-          />
+            " placeholder="your_username" autocomplete="username" [(ngModel)]="form.username" required />
           @if (getFieldError('username')) {
-            <p class="text-xs text-red-600">{{ getFieldError('username') }}</p>
+          <p class="text-xs text-red-600">{{ getFieldError('username') }}</p>
           }
         </div>
 
         <!-- Email -->
         <div class="flex flex-col gap-1.5">
-          <label
-            class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
-            for="reg-email"
-            >Email</label
-          >
-          <input
-            id="reg-email"
-            name="email"
-            type="email"
+          <label class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
+            for="reg-email">Email</label>
+          <input id="reg-email" name="email" type="email"
             class="w-full border rounded-lg px-4 py-3 text-sm text-neutral-900 bg-white outline-none transition placeholder:text-neutral-300 focus:shadow-[0_0_0_3px_rgba(26,26,26,0.06)]"
             [class]="
               !!getFieldError('email')
                 ? 'border-red-400 focus:border-red-400'
                 : 'border-neutral-300 focus:border-neutral-900'
-            "
-            placeholder="you@example.com"
-            autocomplete="email"
-            [(ngModel)]="form.email"
-            required
-          />
+            " placeholder="you@example.com" autocomplete="email" [(ngModel)]="form.email" required />
           @if (getFieldError('email')) {
-            <p class="text-xs text-red-600">{{ getFieldError('email') }}</p>
+          <p class="text-xs text-red-600">{{ getFieldError('email') }}</p>
           }
         </div>
 
         <!-- Password -->
         <div class="flex flex-col gap-1.5">
-          <label
-            class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
-            for="reg-password"
-            >Password</label
-          >
+          <label class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
+            for="reg-password">Password</label>
           <div class="relative">
-            <input
-              id="reg-password"
-              name="password"
-              [type]="showPassword() ? 'text' : 'password'"
+            <input id="reg-password" name="password" [type]="showPassword() ? 'text' : 'password'"
               class="w-full border rounded-lg px-4 py-3 pr-12 text-sm text-neutral-900 bg-white outline-none transition placeholder:text-neutral-300 focus:shadow-[0_0_0_3px_rgba(26,26,26,0.06)]"
               [class]="
                 !!getFieldError('password')
                   ? 'border-red-400 focus:border-red-400'
                   : 'border-neutral-300 focus:border-neutral-900'
-              "
-              placeholder="Min 8 characters"
-              autocomplete="new-password"
-              [(ngModel)]="form.password"
-              required
-            />
-            <button
-              type="button"
+              " placeholder="Min 8 characters" autocomplete="new-password" [(ngModel)]="form.password" required />
+            <button type="button"
               class="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-800 transition"
-              (click)="togglePassword(1)"
-              aria-label="Toggle password visibility"
-            >
+              (click)="togglePassword(1)" aria-label="Toggle password visibility">
               @if (showPassword()) {
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                >
-                  <path
-                    d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"
-                  />
-                  <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
-                  <line x1="1" y1="1" x2="23" y2="23" />
-                </svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+                <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
               } @else {
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                >
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
               }
             </button>
           </div>
 
           <!-- Strength meter -->
           @if (passwordStrength) {
-            <div class="flex items-center gap-3 mt-1">
-              <div class="flex gap-1">
-                <span
-                  class="w-9 h-0.5 rounded-full transition-colors duration-300"
-                  [class]="
+          <div class="flex items-center gap-3 mt-1">
+            <div class="flex gap-1">
+              <span class="w-9 h-0.5 rounded-full transition-colors duration-300" [class]="
                     ['weak', 'medium', 'strong'].includes(passwordStrength)
                       ? 'bg-red-400'
                       : 'bg-neutral-200'
-                  "
-                ></span>
-                <span
-                  class="w-9 h-0.5 rounded-full transition-colors duration-300"
-                  [class]="
+                  "></span>
+              <span class="w-9 h-0.5 rounded-full transition-colors duration-300" [class]="
                     ['medium', 'strong'].includes(passwordStrength)
                       ? 'bg-orange-400'
                       : 'bg-neutral-200'
-                  "
-                ></span>
-                <span
-                  class="w-9 h-0.5 rounded-full transition-colors duration-300"
-                  [class]="passwordStrength === 'strong' ? 'bg-green-400' : 'bg-neutral-200'"
-                ></span>
-              </div>
-              <span
-                class="text-[11px] font-semibold capitalize tracking-wide"
-                [class]="
+                  "></span>
+              <span class="w-9 h-0.5 rounded-full transition-colors duration-300"
+                [class]="passwordStrength === 'strong' ? 'bg-green-400' : 'bg-neutral-200'"></span>
+            </div>
+            <span class="text-[11px] font-semibold capitalize tracking-wide" [class]="
                   passwordStrength === 'weak'
                     ? 'text-red-400'
                     : passwordStrength === 'medium'
                       ? 'text-orange-400'
                       : 'text-green-600'
-                "
-                >{{ passwordStrength }}</span
-              >
-            </div>
+                ">{{ passwordStrength }}</span>
+          </div>
           }
 
           @if (getFieldError('password')) {
-            <p class="text-xs text-red-600">{{ getFieldError('password') }}</p>
+          <p class="text-xs text-red-600">{{ getFieldError('password') }}</p>
           }
         </div>
 
         <!-- Confirm password -->
         <div class="flex flex-col gap-1.5">
-          <label
-            class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
-            for="reg-password2"
-            >Confirm password</label
-          >
+          <label class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500"
+            for="reg-password2">Confirm password</label>
           <div class="relative">
-            <input
-              id="reg-password2"
-              name="password2"
-              [type]="showPassword2() ? 'text' : 'password'"
+            <input id="reg-password2" name="password2" [type]="showPassword2() ? 'text' : 'password'"
               class="w-full border rounded-lg px-4 py-3 pr-12 text-sm text-neutral-900 bg-white outline-none transition placeholder:text-neutral-300 focus:shadow-[0_0_0_3px_rgba(26,26,26,0.06)]"
               [class]="
                 passwordMismatch || !!getFieldError('password2')
                   ? 'border-red-400 focus:border-red-400'
                   : 'border-neutral-300 focus:border-neutral-900'
-              "
-              placeholder="Repeat password"
-              autocomplete="new-password"
-              [(ngModel)]="form.password2"
-              required
-            />
-            <button
-              type="button"
+              " placeholder="Repeat password" autocomplete="new-password" [(ngModel)]="form.password2" required />
+            <button type="button"
               class="absolute right-3.5 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-800 transition"
-              (click)="togglePassword(2)"
-              aria-label="Toggle confirm password visibility"
-            >
+              (click)="togglePassword(2)" aria-label="Toggle confirm password visibility">
               @if (showPassword2()) {
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                >
-                  <path
-                    d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94"
-                  />
-                  <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
-                  <line x1="1" y1="1" x2="23" y2="23" />
-                </svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+                <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
               } @else {
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="1.8"
-                >
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                  <circle cx="12" cy="12" r="3" />
-                </svg>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
               }
             </button>
           </div>
           @if (passwordMismatch) {
-            <p class="text-xs text-red-600">Passwords do not match.</p>
+          <p class="text-xs text-red-600">Passwords do not match.</p>
           }
           @if (getFieldError('password2')) {
-            <p class="text-xs text-red-600">{{ getFieldError('password2') }}</p>
+          <p class="text-xs text-red-600">{{ getFieldError('password2') }}</p>
           }
         </div>
 
         <!-- Submit -->
-        <button
-          id="register-submit-btn"
-          type="submit"
+        <button id="register-submit-btn" type="submit"
           class="flex items-center justify-center gap-2 w-full py-3 px-6 mt-1 bg-neutral-900 text-white text-sm font-medium tracking-wide rounded-lg transition hover:bg-neutral-700 hover:-translate-y-px active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           [disabled]="
             isLoading() ||
@@ -295,15 +187,12 @@
             !form.password ||
             !form.password2 ||
             passwordMismatch
-          "
-        >
+          ">
           @if (isLoading()) {
-            <span
-              class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin-btn"
-            ></span>
-            Creating account…
+          <span class="w-4 h-4 rounded-full border-2 border-white/30 border-t-white animate-spin-btn"></span>
+          Creating account…
           } @else {
-            Create account
+          Create account
           }
         </button>
       </form>
@@ -311,11 +200,8 @@
       <!-- Switch -->
       <p class="text-center text-sm text-neutral-500">
         Already have an account?
-        <a
-          routerLink="/login"
-          class="font-semibold text-neutral-900 border-b border-neutral-900 hover:opacity-60 transition"
-          >Sign in</a
-        >
+        <a routerLink="/login"
+          class="font-semibold text-neutral-900 border-b border-neutral-900 hover:opacity-60 transition">Sign in</a>
       </p>
     </div>
   </div>

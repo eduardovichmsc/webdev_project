@@ -69,10 +69,12 @@ body {
 /* selection */
 @layer base {
   ::selection {
-    @apply bg-white/25 text-zinc-950 text-shadow-none;
+    background-color: #d4cfc8;
+    color: #0a0a0a;
   }
   ::-moz-selection {
-    @apply bg-white/25 text-zinc-950 text-shadow-none;
+    background-color: #d4cfc8;
+    color: #0a0a0a;
   }
 }
 

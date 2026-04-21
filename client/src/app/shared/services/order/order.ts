@@ -28,6 +28,10 @@ export class OrderService {
     });
   }
 
+  updateQuantity(id: number, quantity: number): Observable<OrderItem> {
+    return this.http.patch<OrderItem>(`${this.base}/${id}/`, { quantity });
+  }
+
   removeFromCart(id: number): Observable<void> {
     return this.http.delete<void>(`${this.base}/${id}/`);
   }

@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Breadcrumbs } from '../../shared/ui/breadcrumbs/breadcrumbs';
 import { ProductCard } from '../../shared/ui/product-card/product-card';
 import { Title } from '@angular/platform-browser';
@@ -6,6 +7,7 @@ import { PATHS } from '../../core/configs/paths.config';
 import { Category } from '../../shared/models/category.model';
 import { PaginatedResponse } from '../../shared/models/api.model';
 import { ProductService } from '../../shared/services/product/product';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-shop',
@@ -18,10 +20,19 @@ export class Shop {
   constructor(
     private title: Title,
     private productService: ProductService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.title.setTitle('Shop: Simuero');
     this.loadCategories();
-    this.loadProducts();
+
+    // React to ?category= query param changes (including initial load)
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe((params) => {
+      const category = params.get('category') || 'all';
+      this.selectedCategorySlug.set(category);
+      this.offset.set(0);
+      this.loadProducts();
+    });
   }
 
   link = PATHS.SHOP.ROOT;
@@ -53,7 +64,6 @@ export class Shop {
       next: (backendCategories: any) => {
         const allCategory: Category = { id: 0, slug: 'all', name: 'All' };
         this.categories.set([allCategory, ...backendCategories]);
-        console.log(backendCategories);
       },
       error: (err) => console.error('Ошибка загрузки категорий', err),
     });
@@ -66,8 +76,6 @@ export class Shop {
       .getProducts(this.selectedCategorySlug(), this.limit, this.offset(), this.selectedOrdering())
       .subscribe({
         next: (response: PaginatedResponse<any>) => {
-          console.log(response);
-
           this.totalCount.set(response.count);
 
           const mappedProducts = response.results.map((p: any) => ({
@@ -99,9 +107,12 @@ export class Shop {
   selectCategory(slug: string) {
     if (this.selectedCategorySlug() === slug) return;
 
-    this.selectedCategorySlug.set(slug);
-    this.offset.set(0);
-    this.loadProducts();
+    // Update the URL — triggers queryParamMap subscription which reloads products
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { category: slug === 'all' ? null : slug },
+      queryParamsHandling: 'merge',
+    });
   }
 
   nextPage() {
@@ -126,3 +137,5 @@ export class Shop {
     }, 50);
   }
 }
+
+

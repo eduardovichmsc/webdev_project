@@ -31,7 +31,7 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-  ) { }
+  ) {}
 
   // ─── Tokens ──────────────────────────────────────────────────────────────
 
@@ -84,17 +84,13 @@ export class AuthService {
     const refresh = this.getRefreshToken();
     return this.http
       .post<{ access: string }>(`${this.base}/refresh/`, { refresh })
-      .pipe(
-        tap(({ access }) => localStorage.setItem(STORAGE_KEYS.ACCESS, access)),
-      );
+      .pipe(tap(({ access }) => localStorage.setItem(STORAGE_KEYS.ACCESS, access)));
   }
 
   logout(): void {
     const refresh = this.getRefreshToken();
     if (refresh) {
-      this.http
-        .post(`${this.base}/logout/`, { refresh })
-        .subscribe({ error: () => { } });
+      this.http.post(`${this.base}/logout/`, { refresh }).subscribe({ error: () => {} });
     }
     this.clearSession();
     this.router.navigate(['/']);
@@ -107,15 +103,13 @@ export class AuthService {
   }
 
   updateProfile(payload: ProfileUpdatePayload): Observable<ProfileUpdateResponse> {
-    return this.http
-      .patch<ProfileUpdateResponse>(`${this.base}/profile/`, payload)
-      .pipe(
-        tap((res) => {
-          const updated: AuthUser = res.user;
-          this._user.set(updated);
-          localStorage.setItem('user', JSON.stringify(updated));
-        }),
-      );
+    return this.http.patch<ProfileUpdateResponse>(`${this.base}/profile/`, payload).pipe(
+      tap((res) => {
+        const updated: AuthUser = res.user;
+        this._user.set(updated);
+        localStorage.setItem('user', JSON.stringify(updated));
+      }),
+    );
   }
 
   changePassword(payload: ChangePasswordPayload): Observable<{ message: string }> {

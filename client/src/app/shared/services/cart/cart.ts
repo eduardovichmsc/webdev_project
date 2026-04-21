@@ -1,4 +1,6 @@
 import { computed, effect, Injectable, signal } from '@angular/core';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { OrderItem } from '../../models/order.model';
 import { AnyProduct } from '../../models/product.model';
 import { OrderService } from '../order/order';
@@ -9,6 +11,9 @@ export class CartService {
   private _items = signal<OrderItem[]>([]);
   private _isOpen = signal(false);
   private _isLoading = signal(false);
+
+  /** debounce queue: itemId → Subject<quantity> */
+  private _qtySubjects = new Map<number, Subject<number>>();
 
   readonly items = this._items.asReadonly();
   readonly isOpen = this._isOpen.asReadonly();
@@ -118,14 +123,8 @@ export class CartService {
   }
 
   increaseQuantity(item: OrderItem): void {
-    this._items.set(
-      this._items().map((i) =>
-        i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i,
-      ),
-    );
-    this.orderService.addToCart(item.product_detail.id, 1).subscribe({
-      error: () => this.loadCart(),
-    });
+    const newQty = item.quantity + 1;
+    this._patchQuantityOptimistic(item.id, newQty);
   }
 
   decreaseQuantity(item: OrderItem): void {
@@ -133,10 +132,36 @@ export class CartService {
       this.removeItem(item.id);
       return;
     }
+    const newQty = item.quantity - 1;
+    this._patchQuantityOptimistic(item.id, newQty);
+  }
+
+  /**
+   * Optimistically updates the local quantity, then debounces the PATCH call
+   * so rapid clicks result in a single request with the final quantity.
+   */
+  private _patchQuantityOptimistic(itemId: number, newQty: number): void {
+    // Update UI immediately
     this._items.set(
-      this._items().map((i) =>
-        i.id === item.id ? { ...i, quantity: i.quantity - 1 } : i,
-      ),
+      this._items().map((i) => (i.id === itemId ? { ...i, quantity: newQty } : i)),
     );
+
+    // Get or create a debounce subject for this item
+    if (!this._qtySubjects.has(itemId)) {
+      const subject = new Subject<number>();
+      subject.pipe(debounceTime(400)).subscribe((qty) => {
+        this.orderService.updateQuantity(itemId, qty).subscribe({
+          next: (updated) => {
+            this._items.set(
+              this._items().map((i) => (i.id === itemId ? updated : i)),
+            );
+          },
+          error: () => this.loadCart(), // revert on server error
+        });
+      });
+      this._qtySubjects.set(itemId, subject);
+    }
+
+    this._qtySubjects.get(itemId)!.next(newQty);
   }
 }

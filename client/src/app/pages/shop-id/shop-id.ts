@@ -1,5 +1,5 @@
 import { Component, signal, computed } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { AnyProduct } from '../../shared/models/product.model';
 import { CurrencyPipe } from '@angular/common';
 import { Breadcrumb, Breadcrumbs } from '../../shared/ui/breadcrumbs/breadcrumbs';
@@ -11,11 +11,12 @@ import { switchMap, tap, catchError, finalize, of, filter, map } from 'rxjs';
 import { ProductService } from '../../shared/services/product/product';
 import { Tab, Tabs } from '../../shared/ui/tabs/tabs';
 import { CartService } from '../../shared/services/cart/cart';
+import { ProductCard } from '../../shared/ui/product-card/product-card';
 
 @Component({
   selector: 'app-shop-id',
   standalone: true,
-  imports: [CurrencyPipe, Breadcrumbs, Tabs],
+  imports: [CurrencyPipe, Breadcrumbs, Tabs, RouterLink, ProductCard],
   templateUrl: './shop-id.html',
   styleUrl: './shop-id.css',
 })
@@ -46,6 +47,7 @@ export class ProductDetail {
   product = signal<AnyProduct | undefined>(undefined);
   category = signal<Category | undefined>(undefined);
   selectedImageIndex = signal(0);
+  relatedProducts = signal<any[]>([]);
 
   breadcrumbs = computed<Breadcrumb[]>(() => {
     const currentProduct = this.product();
@@ -90,6 +92,7 @@ export class ProductDetail {
         this.product.set(foundProduct);
         this.category.set(foundProduct.category);
         this.title.setTitle(`${foundProduct.name}: Simuero`);
+        this.loadRelated(foundProduct);
       }),
       catchError((error) => {
         console.error('Ошибка загрузки продукта:', error);
@@ -99,5 +102,26 @@ export class ProductDetail {
       }),
       finalize(() => this.isProductLoading.set(false)),
     );
+  }
+
+  private loadRelated(current: AnyProduct): void {
+    this.productService
+      .getProducts(current.category.slug, 5, 0)
+      .subscribe({
+        next: (res) => {
+          const mapped = res.results
+            .filter((p) => p.slug !== current.slug)
+            .slice(0, 4)
+            .map((p: any) => ({
+              id: p.id,
+              slug: p.slug,
+              image: p.images?.[0]?.image_url || '',
+              name: p.name,
+              price: p.price,
+            }));
+          this.relatedProducts.set(mapped);
+        },
+        error: () => this.relatedProducts.set([]),
+      });
   }
 }
