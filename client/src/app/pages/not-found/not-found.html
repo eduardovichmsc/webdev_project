@@ -1,0 +1,41 @@
+<section class="not-found-page min-h-screen flex flex-col items-center justify-center px-6 text-center overflow-hidden">
+
+  <!-- Huge background number -->
+  <div class="not-found__bg-number" aria-hidden="true">
+    {{ counter() }}
+  </div>
+
+  <!-- Content -->
+  <div class="not-found__content">
+    <p class="not-found__label">Error</p>
+
+    <h1 class="not-found__title font-serif">
+      Page Not Found
+    </h1>
+
+    <p class="not-found__description">
+      The page you're looking for doesn't exist or has been moved.<br />
+      Let's get you back to something beautiful.
+    </p>
+
+    <div class="not-found__actions">
+      <a
+        id="not-found-shop-link"
+        [routerLink]="shopPath"
+        class="not-found__btn not-found__btn--primary"
+      >
+        Explore the Shop
+      </a>
+      <a
+        id="not-found-home-link"
+        [routerLink]="homePath"
+        class="not-found__btn not-found__btn--ghost"
+      >
+        Back to Home
+      </a>
+    </div>
+  </div>
+
+  <!-- Decorative line -->
+  <div class="not-found__line" aria-hidden="true"></div>
+</section>

@@ -1,0 +1,153 @@
+/* ── Layout ───────────────────────────────────────────── */
+.not-found-page {
+  position: relative;
+  background-color: #faf9f7;
+  color: #0a0a0a;
+}
+
+/* ── Huge background number ───────────────────────────── */
+.not-found__bg-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: 'Oswald', serif;
+  font-size: clamp(160px, 28vw, 420px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.07);
+  user-select: none;
+  pointer-events: none;
+
+  animation: bg-number-in 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes bg-number-in {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Content ──────────────────────────────────────────── */
+.not-found__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  animation: content-in 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes content-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Label ────────────────────────────────────────────── */
+.not-found__label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 1rem;
+}
+
+/* ── Title ────────────────────────────────────────────── */
+.not-found__title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  color: #0a0a0a;
+}
+
+/* ── Description ──────────────────────────────────────── */
+.not-found__description {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  color: #6b7280;
+  line-height: 1.8;
+  max-width: 36ch;
+  margin-bottom: 2.5rem;
+}
+
+/* ── Actions ──────────────────────────────────────────── */
+.not-found__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.not-found__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 2.25rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.not-found__btn--primary {
+  background-color: #0a0a0a;
+  color: #fff;
+}
+.not-found__btn--primary:hover {
+  background-color: #262626;
+}
+
+.not-found__btn--ghost {
+  background-color: transparent;
+  color: #0a0a0a;
+  border: 1px solid #d1d5db;
+}
+.not-found__btn--ghost:hover {
+  border-color: #0a0a0a;
+}
+
+/* ── Decorative bottom line ───────────────────────────── */
+.not-found__line {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), transparent);
+  animation: line-in 1s 0.5s ease both;
+}
+
+@keyframes line-in {
+  from {
+    opacity: 0;
+    height: 0;
+  }
+  to {
+    opacity: 1;
+    height: 80px;
+  }
+}
