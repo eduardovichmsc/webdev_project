@@ -8,7 +8,6 @@ from .serializers import RegisterSerializer, LoginSerializer, ProfileUpdateSeria
 
 
 def _tokens_for_user(user):
-    """Return access and refresh tokens for the given user"""
     refresh = RefreshToken.for_user(user)
     return {
         'refresh': str(refresh),

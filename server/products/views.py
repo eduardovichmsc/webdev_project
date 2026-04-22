@@ -12,8 +12,6 @@ from .serializers import (
 )
 
 
-# product FBVs
-
 # ordering fields
 PRODUCT_ORDERING_FIELDS = {
     'price':        'price',
@@ -113,8 +111,6 @@ def product_detail(request, slug):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# category CBV
-
 class CategoryListView(APIView):
     """GET /api/products/categories/ — list all categories"""
     permission_classes = [AllowAny]
@@ -124,8 +120,6 @@ class CategoryListView(APIView):
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data)
 
-
-# orderItem CBVs
 
 class OrderItemListView(generics.ListCreateAPIView):
     """

@@ -1,1 +1,0 @@
-# Simuero project package
